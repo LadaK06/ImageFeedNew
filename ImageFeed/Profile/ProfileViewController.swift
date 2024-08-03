@@ -28,8 +28,8 @@ class ProfileViewController: UIViewController {
         createNameLabel()
         createLoginLabel()
         createDescriptionLabel()
-        createFavoritesLabel()
-        createNoPhotoImageView()
+//        createFavoritesLabel()
+//        createNoPhotoImageView()
         createLogoutButton()
     }
     
