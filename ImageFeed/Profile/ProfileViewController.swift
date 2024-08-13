@@ -2,16 +2,16 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     // MARK: - Subview Properties
     
     private var avatarImageView: UIImageView!
-    private var noPhotoImageView: UIImageView!
+//    private var noPhotoImageView: UIImageView!
     private var nameLabel: UILabel!
     private var loginLabel: UILabel!
     private var descriptionLabel: UILabel!
-    private var favoritesLabel: UILabel!
+//    private var favoritesLabel: UILabel!
     private var logoutButton: UIButton!
     
     // MARK: - UIStatusBarStyle
@@ -44,10 +44,10 @@ class ProfileViewController: UIViewController {
         loginLabel = nil
         descriptionLabel.removeFromSuperview()
         descriptionLabel = nil
-        NSLayoutConstraint.activate([
-            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-            favoritesLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 102)
-        ])
+//        NSLayoutConstraint.activate([
+//            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
+//            favoritesLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 102)
+//        ])
         logoutButton.isEnabled = false
     }
     
@@ -108,32 +108,32 @@ class ProfileViewController: UIViewController {
         self.descriptionLabel = descriptionLabel
     }
     
-    private func createFavoritesLabel() {
-        let favoritesLabel = UILabel()
-        favoritesLabel.text = "Избранное"
-        favoritesLabel.textColor = .ypWhite
-        favoritesLabel.font = UIFont.boldSystemFont(ofSize: 23)
-        favoritesLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(favoritesLabel)
-        NSLayoutConstraint.activate([
-            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-            favoritesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24)
-        ])
-        self.favoritesLabel = favoritesLabel
-    }
+//    private func createFavoritesLabel() {
+//        let favoritesLabel = UILabel()
+//        favoritesLabel.text = "Избранное"
+//        favoritesLabel.textColor = .ypWhite
+//        favoritesLabel.font = UIFont.boldSystemFont(ofSize: 23)
+//        favoritesLabel.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(favoritesLabel)
+//        NSLayoutConstraint.activate([
+//            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
+//            favoritesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24)
+//        ])
+//        self.favoritesLabel = favoritesLabel
+//    }
     
-    private func createNoPhotoImageView() {
-        let noPhotoImageView = UIImageView(image: UIImage(named: "No Photo.png"))
-        noPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(noPhotoImageView)
-        NSLayoutConstraint.activate([
-            noPhotoImageView.heightAnchor.constraint(equalToConstant: 115),
-            noPhotoImageView.widthAnchor.constraint(equalToConstant: 115),
-            noPhotoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noPhotoImageView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 110)
-        ])
-        self.noPhotoImageView = noPhotoImageView
-    }
+//    private func createNoPhotoImageView() {
+//        let noPhotoImageView = UIImageView(image: UIImage(named: "No Photo.png"))
+//        noPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(noPhotoImageView)
+//        NSLayoutConstraint.activate([
+//            noPhotoImageView.heightAnchor.constraint(equalToConstant: 115),
+//            noPhotoImageView.widthAnchor.constraint(equalToConstant: 115),
+//            noPhotoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            noPhotoImageView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 110)
+//        ])
+//        self.noPhotoImageView = noPhotoImageView
+//    }
     
     private func createLogoutButton() {
         let logoutButton = UIButton.systemButton(
