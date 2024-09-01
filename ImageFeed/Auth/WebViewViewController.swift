@@ -1,14 +1,14 @@
 
-
 import UIKit
 import WebKit
 
 
 final class WebViewViewController: UIViewController {
     
-    // MARK: - Public Properties
+    // MARK: - Properties
     
     weak var delegate: WebViewViewControllerDelegate?
+    private var estimatedProgressObservation: NSKeyValueObservation?
     
     // MARK: - IBOutlet
     
@@ -19,50 +19,9 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: accessKey),
-            URLQueryItem(name: "redirect_uri", value: redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: accessScope)
-        ]
-        let url = urlComponents.url!
-        let request = URLRequest(url: url)
-        webView.load(request)
-        
+        includeEstimatedProgressObservation()
+        loadWebView()
         webView.navigationDelegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Реализация KVO, добавляем "подписчика" на обновления значений прогресса estimatedProgress
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil)
-        updateProgress()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
-    }
-    
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        // Функция - обработчик обновлений (KVO)
-        
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
     }
     
     // MARK: - IBAction
@@ -76,6 +35,30 @@ final class WebViewViewController: UIViewController {
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+    }
+    
+    private func includeEstimatedProgressObservation() {
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: { [weak self] _, _ in
+                 guard let self = self else { return }
+                 self.updateProgress()
+             }
+        )
+    }
+}
+
+private extension WebViewViewController {
+    func loadWebView() {
+        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
+        urlComponents.queryItems = [URLQueryItem(name: "client_id", value: accessKey),
+                                    URLQueryItem(name: "redirect_uri", value: redirectURI),
+                                    URLQueryItem(name: "response_type", value: "code"),
+                                    URLQueryItem(name: "scope", value: accessScope)]
+        let url = urlComponents.url!
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
 }
 

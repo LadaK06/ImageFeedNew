@@ -1,5 +1,4 @@
 
-
 import Foundation
 
 private var dateFormatter: DateFormatter = {

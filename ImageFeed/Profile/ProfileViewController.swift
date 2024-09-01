@@ -1,18 +1,21 @@
 
-
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    
+    // MARK: - Private Constants
+    
+    private let profileService = ProfileService.shared
     
     // MARK: - Subview Properties
     
     private var avatarImageView: UIImageView!
-//    private var noPhotoImageView: UIImageView!
     private var nameLabel: UILabel!
     private var loginLabel: UILabel!
     private var descriptionLabel: UILabel!
-//    private var favoritesLabel: UILabel!
     private var logoutButton: UIButton!
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - UIStatusBarStyle
     
@@ -24,13 +27,36 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
         createAvatarImageView()
         createNameLabel()
         createLoginLabel()
         createDescriptionLabel()
-//        createFavoritesLabel()
-//        createNoPhotoImageView()
         createLogoutButton()
+        
+        updateProfileDetails(profile: profileService.profile)
+    }
+    
+    // MARK: - Public Methods
+    
+    func updateProfileDetails(profile: Profile?) {
+        guard let profile = profile else {
+            return
+        }
+        nameLabel.text = profile.name
+        loginLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
     
     // MARK: - IBAction
@@ -44,14 +70,24 @@ final class ProfileViewController: UIViewController {
         loginLabel = nil
         descriptionLabel.removeFromSuperview()
         descriptionLabel = nil
-//        NSLayoutConstraint.activate([
-//            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-//            favoritesLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 102)
-//        ])
         logoutButton.isEnabled = false
     }
     
     // MARK: - Private Methods
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let imageURL = URL(string: profileImageURL)
+        else { return }
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(with: imageURL,
+                                    placeholder: UIImage(named: "Stub.png"),
+                                    options: [.processor(processor)])
+    }
+    
+    //MARK: - Creat View
     
     private func createAvatarImageView() {
         let avatarImageView = UIImageView(image: UIImage(named: "test profile photo.png"))
@@ -107,33 +143,6 @@ final class ProfileViewController: UIViewController {
         ])
         self.descriptionLabel = descriptionLabel
     }
-    
-//    private func createFavoritesLabel() {
-//        let favoritesLabel = UILabel()
-//        favoritesLabel.text = "Избранное"
-//        favoritesLabel.textColor = .ypWhite
-//        favoritesLabel.font = UIFont.boldSystemFont(ofSize: 23)
-//        favoritesLabel.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(favoritesLabel)
-//        NSLayoutConstraint.activate([
-//            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-//            favoritesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24)
-//        ])
-//        self.favoritesLabel = favoritesLabel
-//    }
-    
-//    private func createNoPhotoImageView() {
-//        let noPhotoImageView = UIImageView(image: UIImage(named: "No Photo.png"))
-//        noPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(noPhotoImageView)
-//        NSLayoutConstraint.activate([
-//            noPhotoImageView.heightAnchor.constraint(equalToConstant: 115),
-//            noPhotoImageView.widthAnchor.constraint(equalToConstant: 115),
-//            noPhotoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            noPhotoImageView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 110)
-//        ])
-//        self.noPhotoImageView = noPhotoImageView
-//    }
     
     private func createLogoutButton() {
         let logoutButton = UIButton.systemButton(
