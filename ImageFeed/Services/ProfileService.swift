@@ -13,6 +13,8 @@ final class ProfileService {
     private(set) var profile: Profile?
     private var task: URLSessionTask?
     
+    private init() {}
+    
     // MARK: - Public Methods
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
@@ -39,9 +41,9 @@ final class ProfileService {
                         bio: body.bio ?? "Hello, world!"
                     )
                     self.profile = profile
-                    
                     completion(.success(profile))
                 case .failure(let error):
+                    print("[ProfileService] Error fetching Profile: \(error)")
                     completion(.failure(error))
                     self.profile = nil
                 }

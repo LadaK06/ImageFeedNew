@@ -8,7 +8,7 @@ final class SplashViewController: UIViewController  {
     
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oauth2TokenStorage = OAuth2TokenStorage()
-    private let oauth2Service = OAuth2Service()
+    private let oauth2Service = OAuth2Service.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
@@ -108,12 +108,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let token):
                 self.fetchProfile(token: token)
-                UIBlockingProgressHUD.dismiss()
-            case .failure:
-                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print("[SplashScreen] Token was lost \(error)")
                 showAlertNetworkError()
                 break
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -123,13 +123,13 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let data):
                 profileImageService.fetchProfileImageURL(token: token, username: data.username) { _ in }
-                UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
-            case .failure:
-                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print("[SplashScreen] Failed to fetch profile: \(error)")
                 showAlertNetworkError()
                 break
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
 }

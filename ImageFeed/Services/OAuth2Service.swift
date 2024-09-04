@@ -22,6 +22,8 @@ final class OAuth2Service {
         }
     }
     
+    private init() {}
+    
     // MARK: - Public Methods
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -39,6 +41,7 @@ final class OAuth2Service {
                     self.authToken = authToken
                     completion(.success(authToken))
                 case .failure(let error):
+                    print("[AuthService] Error fetching OAuth token: \(error)")
                     completion(.failure(error))
                 }
                 self.task = nil
