@@ -1,9 +1,3 @@
-//
-//  Profile.swift
-//  ImageFeed
-//
-//  Created by Iurii on 20.08.23.
-//
 
 import Foundation
 
