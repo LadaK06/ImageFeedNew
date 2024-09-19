@@ -1,9 +1,3 @@
-//
-//  AlertModel.swift
-//  ImageFeed
-//
-//  Created by Iurii on 24.08.23.
-//
 
 import UIKit
 
@@ -13,6 +7,7 @@ struct AlertModelOneButton {
     let buttonText: String
     let completion: (() -> Void)?
 }
+
 
 struct AlertModelTwoButton {
     let title: String

@@ -1,9 +1,3 @@
-//
-//  PhotoResult.swift
-//  ImageFeed
-//
-//  Created by Iurii on 30.08.23.
-//
 
 import Foundation
 

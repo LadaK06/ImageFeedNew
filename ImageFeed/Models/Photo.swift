@@ -1,9 +1,3 @@
-//
-//  Photo.swift
-//  ImageFeed
-//
-//  Created by Iurii on 29.08.23.
-//
 
 import Foundation
 
@@ -15,4 +9,4 @@ struct Photo {
     let thumbImageURL: String
     let largeImageURL: String
     var isLiked: Bool
-} 
+}

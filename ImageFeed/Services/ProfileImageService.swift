@@ -1,9 +1,3 @@
-//
-//  ProfileImageService.swift
-//  ImageFeed
-//
-//  Created by Iurii on 21.08.23.
-//
 
 import Foundation
 
@@ -19,6 +13,8 @@ final class ProfileImageService {
     
     private (set) var avatarURL: String?
     private var task: URLSessionTask?
+    
+    private init() {}
     
     // MARK: - Public Methods
     
@@ -48,6 +44,7 @@ final class ProfileImageService {
                             userInfo: ["URL": avatarURL])
                     
                 case .failure(let error):
+                    print("[ProfileImageService] Error fetching UserImage: \(error)")
                     completion(.failure(error))
                     self.avatarURL = nil
                 }
@@ -56,14 +53,13 @@ final class ProfileImageService {
         self.task = task
         task.resume()
     }
-    
+
     func cleanProfileImageURL() {
         avatarURL = nil
         task = nil
     }
+    
 }
-
-    // MARK: - Private Methods
 
 private extension ProfileImageService {
     func profileImageURLRequest(username: String) -> URLRequest {

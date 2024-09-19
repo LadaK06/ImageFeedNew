@@ -1,24 +1,15 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Iurii on 29.06.23.
-//
 
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-    
-    // MARK: - Private Properties
-    
+
     private var photos: [Photo] = []
     private var imagesListService = ImagesListService.shared
     private var imageListServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
-    
+
     // MARK: - Private Constants
-    
-    private let photosName: [String] = Array(0..<21).map{ "\($0)" }
+
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     // MARK: - IBOutlet
@@ -46,20 +37,17 @@ final class ImagesListViewController: UIViewController {
                   let indexPath = sender as? IndexPath else {
                 return
             }
-            
             let image = URL(string: photos[indexPath.row].largeImageURL)
             viewController.largeImageURL = image
         } else {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
-    // MARK: - Private Methods
-    
+
     private func updateImagesListDetails() {
-        
+
         imagesListService.fetchPhotosNextPage()
-        
+
         imageListServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ImagesListService.didChangeNotification,
@@ -71,7 +59,7 @@ final class ImagesListViewController: UIViewController {
             }
         updateTableViewAnimated()
     }
-    
+
     private func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
@@ -85,7 +73,7 @@ final class ImagesListViewController: UIViewController {
             } completion: { _ in }
         }
     }
-    
+
     private func showError() {
         let model = AlertModelOneButton(
             title: "Что-то пошло не так.",
@@ -100,19 +88,19 @@ final class ImagesListViewController: UIViewController {
 // MARK: - UITableViewDelegate
 
 extension ImagesListViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == imagesListService.photos.count {
             imagesListService.fetchPhotosNextPage()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let image = photos[indexPath.row]
-        
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
         let imageWidth = image.size.width
@@ -128,9 +116,9 @@ extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
-        
+
         UIBlockingProgressHUD.show()
-        
+
         imagesListService.changeLike(
             photoId: photo.id,
             isLike: photo.isLiked
@@ -166,7 +154,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         imagesListCell.delegate = self
-        
+
         let photo = photos[indexPath.row]
         let configuringCellStatus = imagesListCell.configCell(photoURL: photo.thumbImageURL, with: indexPath)
         imagesListCell.setIsLiked(isLiked: photo.isLiked)

@@ -1,9 +1,3 @@
-//
-//  SingleImageViewController.swift
-//  ImageFeed
-//
-//  Created by Iurii on 15.07.23.
-//
 
 import UIKit
 
@@ -12,14 +6,14 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Public Properties
     
     var largeImageURL: URL?
-    
+
     // MARK: - IBOutlet
-    
+
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
-    
+
     // MARK: - Private Properties
-    
+
     private var alertPresenter: AlertPresenterProtocol?
     private var image: UIImage! {
         didSet{
@@ -75,14 +69,14 @@ final class SingleImageViewController: UIViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
-    
+
     private func downloadImage() {
         UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: largeImageURL) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-            
+
             guard let self = self else { return }
-            
+
             switch result {
             case .success(let imageResult):
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
@@ -92,7 +86,7 @@ final class SingleImageViewController: UIViewController {
             }
         }
     }
-    
+
     private func showError() {
         let model = AlertModelTwoButton(
             title: "Что-то пошло не так.",

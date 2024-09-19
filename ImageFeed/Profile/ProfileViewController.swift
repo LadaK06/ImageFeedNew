@@ -1,9 +1,3 @@
-//
-//  ProfileViewController.swift
-//  ImageFeed
-//
-//  Created by Iurii on 13.07.23.
-//
 
 import UIKit
 import Kingfisher
@@ -17,68 +11,56 @@ final class ProfileViewController: UIViewController {
     private let imagesListService = ImagesListService.shared
     
     // MARK: - Subview Properties
-    
+
     private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
-    
-    //MARK: - Layout variables
-    
+
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "test profile photo.png"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
-        
+
         return imageView
     }()
-    
+
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Екатерина Новикова"
         label.textColor = .ypWhite
         label.font = UIFont.boldSystemFont(ofSize: 23)
         label.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return label
     }()
-    
+
     private let loginLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "@ekaterina_nov"
         label.textColor = .ypGray
         label.font = UIFont.systemFont(ofSize: 13)
-        
+
         return label
     }()
-    
+
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Hello, world!"
         label.textColor = .ypWhite
         label.font = UIFont.systemFont(ofSize: 13)
-        
+
         return label
     }()
-    
-    private let favoritesLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Избранное"
-        label.textColor = .ypWhite
-        label.font = UIFont.boldSystemFont(ofSize: 23)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
+
     private let noPhotoImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "No Photo.png"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return imageView
     }()
-    
+
     private let logoutButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "Exit.png")
@@ -90,7 +72,7 @@ final class ProfileViewController: UIViewController {
         )
         button.tintColor = .ypRed
         button.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return button
     }()
     
@@ -155,17 +137,19 @@ final class ProfileViewController: UIViewController {
                                     options: [.processor(processor)])
     }
     
+    //MARK: - Creat View
+
     private func exitProfile() {
         OAuth2TokenStorage().token = nil
         WebViewViewController.clean()
         cleanService()
-        
+
         guard let window = UIApplication.shared.windows.first else {
             return assertionFailure("Invalid Configuration")
         }
         window.rootViewController = SplashViewController()
     }
-    
+
     private func showAlertExitProfile() {
         let model = AlertModelTwoButton(
             title: "Пока, пока!",
@@ -192,7 +176,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(loginLabel)
         view.addSubview(descriptionLabel)
-        view.addSubview(favoritesLabel)
         view.addSubview(noPhotoImageView)
         view.addSubview(logoutButton)
     }
@@ -203,24 +186,24 @@ final class ProfileViewController: UIViewController {
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
             avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-            
+
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
-            
+
             loginLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-            
+
             descriptionLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8),
-            
+
             favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             favoritesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
-            
+
             noPhotoImageView.heightAnchor.constraint(equalToConstant: 115),
             noPhotoImageView.widthAnchor.constraint(equalToConstant: 115),
             noPhotoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noPhotoImageView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 110),
-            
+
             logoutButton.heightAnchor.constraint(equalToConstant: 44),
             logoutButton.widthAnchor.constraint(equalToConstant: 44),
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
