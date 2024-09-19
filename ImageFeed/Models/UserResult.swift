@@ -1,3 +1,9 @@
+//
+//  UserResult.swift
+//  ImageFeed
+//
+//  Created by Iurii on 21.08.23.
+//
 
 import Foundation
 

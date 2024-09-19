@@ -1,8 +1,14 @@
+//
+//  ProfileService.swift
+//  ImageFeed
+//
+//  Created by Iurii on 18.08.23.
+//
 
 import Foundation
 
 final class ProfileService {
-   
+    
     // MARK: - Constants
     
     static let shared = ProfileService()
@@ -12,8 +18,6 @@ final class ProfileService {
     
     private(set) var profile: Profile?
     private var task: URLSessionTask?
-    
-    private init() {}
     
     // MARK: - Public Methods
     
@@ -41,9 +45,9 @@ final class ProfileService {
                         bio: body.bio ?? "Hello, world!"
                     )
                     self.profile = profile
+                    
                     completion(.success(profile))
                 case .failure(let error):
-                    print("[ProfileService] Error fetching Profile: \(error)")
                     completion(.failure(error))
                     self.profile = nil
                 }
@@ -52,9 +56,16 @@ final class ProfileService {
         self.task = task
         task.resume()
     }
+    
+    func cleanProfile() {
+        profile = nil
+        task = nil
+    }
 }
 
-extension ProfileService {
+    // MARK: - Private Methods
+
+private extension ProfileService {
     var selfProfileRequest: URLRequest {
         URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
     }

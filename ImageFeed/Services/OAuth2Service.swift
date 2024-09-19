@@ -1,3 +1,9 @@
+//
+//  OAuth2Service.swift
+//  ImageFeed
+//
+//  Created by Iurii on 06.08.23.
+//
 
 import Foundation
 
@@ -22,8 +28,6 @@ final class OAuth2Service {
         }
     }
     
-    private init() {}
-    
     // MARK: - Public Methods
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -41,7 +45,6 @@ final class OAuth2Service {
                     self.authToken = authToken
                     completion(.success(authToken))
                 case .failure(let error):
-                    print("[AuthService] Error fetching OAuth token: \(error)")
                     completion(.failure(error))
                 }
                 self.task = nil
@@ -53,28 +56,6 @@ final class OAuth2Service {
 }
 
 extension OAuth2Service {
-    
-    func photosRequest(page: Int, perPage: Int) -> URLRequest {
-        URLRequest.makeHTTPRequest(path: "/photos?"
-                                   + "page=\(page)"
-                                   + "&&per_page=\(perPage)",
-                                   httpMethod: "GET"
-        )
-    }
-    
-    func likeRequest(photoId: String) -> URLRequest {
-        URLRequest.makeHTTPRequest(
-            path: "/photos/\(photoId)/like",
-            httpMethod: "POST"
-        )
-    }
-    
-    func unlikeRequest(photoId: String) -> URLRequest {
-        URLRequest.makeHTTPRequest(
-            path: "/photos/\(photoId)/like",
-            httpMethod: "DELETE"
-        )
-    }
     
     func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(

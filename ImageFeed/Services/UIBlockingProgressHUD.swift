@@ -1,3 +1,9 @@
+//
+//  UIBlockingProgressHUD.swift
+//  ImageFeed
+//
+//  Created by Iurii on 14.08.23.
+//
 
 import ProgressHUD
 import UIKit
@@ -9,6 +15,7 @@ final class UIBlockingProgressHUD {
     
     static func show() {
         window?.isUserInteractionEnabled = false
+        ProgressHUD.colorAnimation = .white
         ProgressHUD.show()
     }
     
