@@ -54,13 +54,6 @@ final class ProfileViewController: UIViewController {
         return label
     }()
 
-    private let noPhotoImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "No Photo.png"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        return imageView
-    }()
-
     private let logoutButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = UIImage(named: "Exit.png")
@@ -176,7 +169,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(loginLabel)
         view.addSubview(descriptionLabel)
-        view.addSubview(noPhotoImageView)
         view.addSubview(logoutButton)
     }
     
@@ -195,14 +187,6 @@ final class ProfileViewController: UIViewController {
 
             descriptionLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8),
-
-            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-            favoritesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
-
-            noPhotoImageView.heightAnchor.constraint(equalToConstant: 115),
-            noPhotoImageView.widthAnchor.constraint(equalToConstant: 115),
-            noPhotoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noPhotoImageView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 110),
 
             logoutButton.heightAnchor.constraint(equalToConstant: 44),
             logoutButton.widthAnchor.constraint(equalToConstant: 44),
