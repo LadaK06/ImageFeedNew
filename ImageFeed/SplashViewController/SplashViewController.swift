@@ -13,16 +13,16 @@ final class SplashViewController: UIViewController  {
     private let profileImageService = ProfileImageService.shared
     
     // MARK: - Private Properties
-
+    
     private var alertPresenter: AlertPresenterProtocol?
     private var authViewController: AuthViewController?
-
+    
     //MARK: - Layout variables
-
+    
     private let splashScreenImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "Splash_screen.png"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return imageView
     }()
     
@@ -40,8 +40,10 @@ final class SplashViewController: UIViewController  {
         alertPresenter = AlertPresenter(viewController: self)
         
         if let token = oauth2TokenStorage.token {
+            print("мы тут1")
             fetchProfile(token: token)
         } else {
+            print("мы тут2")
             switchToAuthViewController()
         }
     }
@@ -74,13 +76,11 @@ final class SplashViewController: UIViewController  {
         )
         alertPresenter?.showSplashView(model)
     }
-
-    //MARK: - Create View
-
+    
     private func addSubViews() {
         view.addSubview(splashScreenImageView)
     }
-
+    
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             splashScreenImageView.heightAnchor.constraint(equalToConstant: 75),
@@ -117,12 +117,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let token):
                 self.fetchProfile(token: token)
-            case .failure(let error):
-                print("[SplashScreen] Token was lost \(error)")
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
                 showAlertNetworkError()
                 break
             }
-            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -132,13 +132,13 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let data):
                 profileImageService.fetchProfileImageURL(token: token, username: data.username) { _ in }
+                UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
-            case .failure(let error):
-                print("[SplashScreen] Failed to fetch profile: \(error)")
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
                 showAlertNetworkError()
                 break
             }
-            UIBlockingProgressHUD.dismiss()
         }
     }
 }

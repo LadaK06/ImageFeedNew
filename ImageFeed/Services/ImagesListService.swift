@@ -16,7 +16,9 @@ final class ImagesListService {
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
 
-    // MARK: - Public Methods
+    func cleanPhotosList() {
+        photos = []
+    }
 
     func fetchPhotosNextPage() {
         let nextPage = nextPageNumber()
