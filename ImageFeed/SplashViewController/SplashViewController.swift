@@ -40,10 +40,8 @@ final class SplashViewController: UIViewController  {
         alertPresenter = AlertPresenter(viewController: self)
         
         if let token = oauth2TokenStorage.token {
-            print("мы тут1")
             fetchProfile(token: token)
         } else {
-            print("мы тут2")
             switchToAuthViewController()
         }
     }
