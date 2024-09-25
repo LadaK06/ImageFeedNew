@@ -9,6 +9,10 @@ final class ImagesListService {
     private let urlSession = URLSession.shared
     private let token = OAuth2TokenStorage().token
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    private let dateFormatter: ISO8601DateFormatter = {
+            let formatter = ISO8601DateFormatter()
+            return formatter
+        }()
 
     // MARK: - Private Properties
 
@@ -136,12 +140,16 @@ private extension ImagesListService {
         guard let lastLoadedPage = lastLoadedPage else { return 1 }
         return lastLoadedPage + 1
     }
+    
+    func getCreatedAtDate(datestrint: String) {
+        
+    }
 
     func convert(_ photoResult: PhotoResult) -> Photo {
-        Photo(
+        return Photo(
             id: photoResult.id,
             size: CGSize(width: photoResult.width, height: photoResult.height),
-            createdAt: photoResult.createdAt?.dateTimeString,
+            createdAt: dateFormatter.date(from: photoResult.createdAt!),
             welcomeDescription: photoResult.description ?? "",
             thumbImageURL: photoResult.urls.thumb,
             largeImageURL: photoResult.urls.full,
