@@ -10,7 +10,7 @@ final class WebViewViewController: UIViewController {
     weak var delegate: WebViewViewControllerDelegate?
     private var estimatedProgressObservation: NSKeyValueObservation?
     private let authUrl = "/oauth/authorize/native"
-    
+
     // MARK: - IBOutlet
     
     @IBOutlet private var webView: WKWebView!
@@ -23,6 +23,15 @@ final class WebViewViewController: UIViewController {
         includeEstimatedProgressObservation()
         loadWebView()
         webView.navigationDelegate = self
+    }
+
+    static func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
     }
     
     // MARK: - IBAction

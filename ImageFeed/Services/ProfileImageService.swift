@@ -16,7 +16,10 @@ final class ProfileImageService {
     
     private init() {}
     
-    // MARK: - Public Methods
+    
+    func cleanAvatarURL () {
+            avatarURL = nil
+        }
     
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -26,16 +29,14 @@ final class ProfileImageService {
         var request: URLRequest? = profileImageURLRequest(username: username)
         request?.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        guard let request = request else {
-            return
-        }
+        guard let request = request else { return }
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let body):
-                    let avatarURL = body.profileImage?.small
+                    let avatarURL = body.profileImage?.large
                     guard let avatarURL = avatarURL else { return }
                     self.avatarURL = avatarURL
                     completion(.success(avatarURL))
@@ -55,10 +56,15 @@ final class ProfileImageService {
         self.task = task
         task.resume()
     }
+
+    func cleanProfileImageURL() {
+        avatarURL = nil
+        task = nil
+    }
     
 }
 
-extension ProfileImageService {
+private extension ProfileImageService {
     func profileImageURLRequest(username: String) -> URLRequest {
         URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
     }

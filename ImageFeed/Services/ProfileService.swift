@@ -52,9 +52,14 @@ final class ProfileService {
         self.task = task
         task.resume()
     }
+
+    func cleanProfile() {
+        profile = nil
+        task = nil
+    }
 }
 
-extension ProfileService {
+private extension ProfileService {
     var selfProfileRequest: URLRequest {
         URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
     }
