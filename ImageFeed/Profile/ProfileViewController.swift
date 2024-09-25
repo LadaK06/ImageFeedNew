@@ -172,8 +172,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         view.addSubview(nameLabel)
         view.addSubview(loginLabel)
         view.addSubview(descriptionLabel)
-        view.addSubview(favoritesLabel)
-        view.addSubview(noPhotoImageView)
         view.addSubview(logoutButton)
     }
     
@@ -192,14 +190,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
             
             descriptionLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8),
-            
-            favoritesLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
-            favoritesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
-            
-            noPhotoImageView.heightAnchor.constraint(equalToConstant: 115),
-            noPhotoImageView.widthAnchor.constraint(equalToConstant: 115),
-            noPhotoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noPhotoImageView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 110),
             
             logoutButton.heightAnchor.constraint(equalToConstant: 44),
             logoutButton.widthAnchor.constraint(equalToConstant: 44),
