@@ -141,15 +141,17 @@ private extension ImagesListService {
         return lastLoadedPage + 1
     }
     
-    func getCreatedAtDate(datestrint: String) {
-        
+    private func parseDate(_ dateString: String?) -> Date? {
+        guard let dateString = dateString else { return nil }
+        return dateFormatter.date(from: dateString)
     }
 
     func convert(_ photoResult: PhotoResult) -> Photo {
         return Photo(
             id: photoResult.id,
             size: CGSize(width: photoResult.width, height: photoResult.height),
-            createdAt: dateFormatter.date(from: photoResult.createdAt!),
+//            createdAt: dateFormatter.date(from: photoResult.createdAt!),
+            createdAt: parseDate(photoResult.createdAt),
             welcomeDescription: photoResult.description ?? "",
             thumbImageURL: photoResult.urls.thumb,
             largeImageURL: photoResult.urls.full,
