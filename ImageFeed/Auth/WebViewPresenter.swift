@@ -19,9 +19,8 @@ public protocol WebViewPresenterProtocol {
 //Переносим логику запроса из контроллера в презентер
 final class WebViewPresenter: WebViewPresenterProtocol {
     
-    
     weak var view: WebViewViewControllerProtocol?
-    var authHelper: AuthHelperProtocol
+    private let authHelper: AuthHelperProtocol
         
     init(authHelper: AuthHelperProtocol) {
         self.authHelper = authHelper

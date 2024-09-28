@@ -23,6 +23,7 @@
 		072C7B272CA432050044733F /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072C7B262CA432050044733F /* ProfilePresenter.swift */; };
 		072C7B2F2CA439470044733F /* ImageFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072C7B2E2CA439470044733F /* ImageFeedUITests.swift */; };
 		072C7B312CA439470044733F /* ImageFeedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072C7B302CA439470044733F /* ImageFeedUITestsLaunchTests.swift */; };
+		072C7B392CA800370044733F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 072C7B382CA800370044733F /* Kingfisher */; };
 		4A01D1882A66889B0031483E /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A01D1872A66889B0031483E /* Date+Extensions.swift */; };
 		4A0887C42A4DF90700CC3998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0887C32A4DF90700CC3998 /* AppDelegate.swift */; };
 		4A0887C62A4DF90700CC3998 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0887C52A4DF90700CC3998 /* SceneDelegate.swift */; };
@@ -48,7 +49,6 @@
 		4AA35D852A9798F20020FB11 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA35D842A9798F20020FB11 /* AlertModel.swift */; };
 		4AA35D882A97993B0020FB11 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA35D872A97993B0020FB11 /* AlertPresenter.swift */; };
 		4AA35D8A2A9799820020FB11 /* AlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA35D892A9799820020FB11 /* AlertPresenterProtocol.swift */; };
-		4AA35D8D2A98C82B0020FB11 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4AA35D8C2A98C82B0020FB11 /* Kingfisher */; };
 		4AA35D952A9A2A430020FB11 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 4AA35D942A9A2A430020FB11 /* SwiftKeychainWrapper */; };
 		4AA35D972A9A31770020FB11 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA35D962A9A31770020FB11 /* TabBarController.swift */; };
 		4AA35D992A9E19130020FB11 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA35D982A9E19130020FB11 /* ImagesListService.swift */; };
@@ -161,7 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AA35D8D2A98C82B0020FB11 /* Kingfisher in Frameworks */,
+				072C7B392CA800370044733F /* Kingfisher in Frameworks */,
 				4AA35D732A863E480020FB11 /* ProgressHUD in Frameworks */,
 				4AA35D952A9A2A430020FB11 /* SwiftKeychainWrapper in Frameworks */,
 			);
@@ -195,6 +195,13 @@
 			path = ImageFeedUITests;
 			sourceTree = "<group>";
 		};
+		072C7B372CA800370044733F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4A0887B72A4DF90700CC3998 = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +209,7 @@
 				072C7B092CA422520044733F /* ImageFeedTests */,
 				072C7B2D2CA439470044733F /* ImageFeedUITests */,
 				4A0887C12A4DF90700CC3998 /* Products */,
+				072C7B372CA800370044733F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -399,8 +407,8 @@
 			name = ImageFeed;
 			packageProductDependencies = (
 				4AA35D722A863E480020FB11 /* ProgressHUD */,
-				4AA35D8C2A98C82B0020FB11 /* Kingfisher */,
 				4AA35D942A9A2A430020FB11 /* SwiftKeychainWrapper */,
+				072C7B382CA800370044733F /* Kingfisher */,
 			);
 			productName = ImageFeed;
 			productReference = 4A0887C02A4DF90700CC3998 /* ImageFeed.app */;
@@ -925,15 +933,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		072C7B382CA800370044733F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4AA35D8B2A98C82B0020FB11 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		4AA35D722A863E480020FB11 /* ProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4AA35D712A863E480020FB11 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
 			productName = ProgressHUD;
-		};
-		4AA35D8C2A98C82B0020FB11 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4AA35D8B2A98C82B0020FB11 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 		4AA35D942A9A2A430020FB11 /* SwiftKeychainWrapper */ = {
 			isa = XCSwiftPackageProductDependency;
