@@ -14,9 +14,17 @@ final class SplashViewController: UIViewController  {
     
     // MARK: - Private Properties
     
-    private var splashScreenImageView: UIImageView!
     private var alertPresenter: AlertPresenterProtocol?
     private var authViewController: AuthViewController?
+    
+    //MARK: - Layout variables
+    
+    private let splashScreenImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "Splash_screen.png"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
     
     // MARK: - UIStatusBarStyle
     
@@ -42,7 +50,8 @@ final class SplashViewController: UIViewController  {
         super.viewDidLoad()
         
         view.backgroundColor = .ypBlack
-        createSplashScreenImageView()
+        addSubViews()
+        applyConstraints()
     }
     
     // MARK: - Private Methods
@@ -57,28 +66,26 @@ final class SplashViewController: UIViewController  {
     }
     
     private func showAlertNetworkError() {
-        let model = AlertModel(
+        let model = AlertModelOneButton(
             title: "Что-то пошло не так(",
             message: "Не удалось войти в систему",
             buttonText: "ОК",
             completion: nil
         )
-        alertPresenter?.show(model)
+        alertPresenter?.showSplashView(model)
     }
     
-    //MARK: - Create View
-    
-    private func createSplashScreenImageView() {
-        let splashScreenImageView = UIImageView(image: UIImage(named: "Splash_screen.png"))
-        splashScreenImageView.translatesAutoresizingMaskIntoConstraints = false
+    private func addSubViews() {
         view.addSubview(splashScreenImageView)
+    }
+    
+    private func applyConstraints() {
         NSLayoutConstraint.activate([
             splashScreenImageView.heightAnchor.constraint(equalToConstant: 75),
             splashScreenImageView.widthAnchor.constraint(equalToConstant: 72),
             splashScreenImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             splashScreenImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-        self.splashScreenImageView = splashScreenImageView
     }
 }
 
@@ -108,12 +115,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let token):
                 self.fetchProfile(token: token)
-            case .failure(let error):
-                print("[SplashScreen] Token was lost \(error)")
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
                 showAlertNetworkError()
                 break
             }
-            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -123,13 +130,13 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let data):
                 profileImageService.fetchProfileImageURL(token: token, username: data.username) { _ in }
+                UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
-            case .failure(let error):
-                print("[SplashScreen] Failed to fetch profile: \(error)")
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
                 showAlertNetworkError()
                 break
             }
-            UIBlockingProgressHUD.dismiss()
         }
     }
 }
